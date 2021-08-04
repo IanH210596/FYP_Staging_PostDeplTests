@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using OpenQA.Selenium;
-// Framework required for using Google Chrome driver in test
-using OpenQA.Selenium.Chrome;
+// Framework required for using Edge driver in test
+using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
@@ -16,7 +16,7 @@ using NUnit.Framework.Internal;
 
 // Post Deployment Test using Google Chrome Web Browser
 [TestFixture]
-public class Test01
+public class Test03
 {
     private IWebDriver driver;
     public WebDriverWait waitForElement;
@@ -41,7 +41,17 @@ public class Test01
     [SetUp]
     public void SetUp()
     {
-        driver = new ChromeDriver("C:\\SeleniumWebDrivers\\ChromeDriver"); //LOCAL: "C:\\Users\\ianh\\Selenium\\chromedriver_win32_localtestversion" OR ON AZURE: "C:\\SeleniumWebDrivers\\ChromeDriver"
+        EdgeOptions options = new EdgeOptions();
+        //filepath of the directory housing msedgedriver.exe on an Azure Pipeline vs2017-win2016 agent: https://github.com/actions/virtual-environments/blob/main/images/win/Windows2016-Readme.md
+        string msedgedriverDir = @"C:\SeleniumWebDrivers\EdgeDriver"; //LOCAL: "C:\Users\ianh\Selenium\edgedriver_win64" OR ON AZURE: "C:\SeleniumWebDrivers\EdgeDriver"
+
+        //name of the Edge Driver
+        string msedgedriverExe = @"msedgedriver.exe";
+        EdgeDriverService service = EdgeDriverService.CreateDefaultService(msedgedriverDir, msedgedriverExe);
+
+        //Creating instance of the EdgeDriver
+        driver = new EdgeDriver(service, options);
+
         js = (IJavaScriptExecutor)driver;
         vars = new Dictionary<string, object>();
 
@@ -79,7 +89,7 @@ public class Test01
         driver.Quit();
     }
     [Test]
-    public void PostDeploymentTest01()
+    public void PostDeploymentTest03()
     {
         driver.Navigate().GoToUrl("http://localhost:4200/"); //LOCAL: http://localhost:4200/ OR AZURE: http://20.67.229.253/
         driver.Manage().Window.Size = new System.Drawing.Size(1936, 1176);

@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using OpenQA.Selenium;
-// Framework required for using Google Chrome driver in test
-using OpenQA.Selenium.Chrome;
+// Framework required for using Firefox driver in test
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Interactions;
@@ -16,7 +16,7 @@ using NUnit.Framework.Internal;
 
 // Post Deployment Test using Google Chrome Web Browser
 [TestFixture]
-public class Test01
+public class Test02
 {
     private IWebDriver driver;
     public WebDriverWait waitForElement;
@@ -41,7 +41,7 @@ public class Test01
     [SetUp]
     public void SetUp()
     {
-        driver = new ChromeDriver("C:\\SeleniumWebDrivers\\ChromeDriver"); //LOCAL: "C:\\Users\\ianh\\Selenium\\chromedriver_win32_localtestversion" OR ON AZURE: "C:\\SeleniumWebDrivers\\ChromeDriver"
+        driver = new FirefoxDriver("C:\\SeleniumWebDrivers\\GeckoDriver"); //LOCAL: N/A OR ON AZURE: "C:\\SeleniumWebDrivers\\GeckoDriver"
         js = (IJavaScriptExecutor)driver;
         vars = new Dictionary<string, object>();
 
@@ -79,7 +79,7 @@ public class Test01
         driver.Quit();
     }
     [Test]
-    public void PostDeploymentTest01()
+    public void PostDeploymentTest02()
     {
         driver.Navigate().GoToUrl("http://localhost:4200/"); //LOCAL: http://localhost:4200/ OR AZURE: http://20.67.229.253/
         driver.Manage().Window.Size = new System.Drawing.Size(1936, 1176);
