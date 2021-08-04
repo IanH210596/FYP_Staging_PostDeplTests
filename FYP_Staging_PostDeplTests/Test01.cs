@@ -81,7 +81,7 @@ public class Test01
     [Test]
     public void PostDeploymentTest01()
     {
-        driver.Navigate().GoToUrl("http://localhost:4200/"); //LOCAL: http://localhost:4200/ OR AZURE: http://20.67.229.253/
+        driver.Navigate().GoToUrl("http://20.67.229.253/"); //LOCAL: http://localhost:4200/ OR AZURE: http://20.67.229.253/
         driver.Manage().Window.Size = new System.Drawing.Size(1936, 1176);
 
         driver.FindElement(By.CssSelector(".registerLink")).Click();
