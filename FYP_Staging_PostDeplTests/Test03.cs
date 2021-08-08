@@ -56,7 +56,7 @@ public class Test03
         vars = new Dictionary<string, object>();
 
         //waitForElement instance to be used to ensure driver waits for an element to become selectable while page loads for at least a timespance of 10 seconds before an error is thrown
-        waitForElement = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        waitForElement = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
 
         // Creating instance of the Randomizer() class and using it to generate random strings for use in the Post Deployment Test
         random = new Randomizer();
