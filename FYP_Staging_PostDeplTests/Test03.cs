@@ -80,8 +80,6 @@ public class Test03
         randomAddressTwo = random.GetString(10);
         randomCity = random.GetString(10);
         randomPostCode = random.GetString(10);
-
-
     }
     [TearDown]
     protected void TearDown()
