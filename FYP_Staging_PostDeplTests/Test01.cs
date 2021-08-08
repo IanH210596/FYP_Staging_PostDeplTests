@@ -164,7 +164,7 @@ public class Test01
         Assert.That(driver.FindElement(By.CssSelector("#mat-option-7 > .mat-option-text")).Text, Is.EqualTo("Moderna"));
         driver.FindElement(By.CssSelector("#mat-option-4 > .mat-option-text")).Click();
 
-        driver.FindElement(By.Id("saveBtn")).Click();0
+        driver.FindElement(By.Id("saveBtn")).Click();
 
         waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector(".mat-simple-snackbar > span")).Displayed);
         var elements = driver.FindElements(By.CssSelector(".mat-simple-snackbar > span"));
