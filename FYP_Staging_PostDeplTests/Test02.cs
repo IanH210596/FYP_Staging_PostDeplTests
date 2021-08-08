@@ -118,10 +118,10 @@ public class Test02
 
         driver.FindElement(By.Id("register")).Click();
 
-        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("errorBtn")).Displayed);
+        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("errorBtn")).Enabled);
         driver.FindElement(By.Id("errorBtn")).Click();
 
-        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("saveBtn")).Displayed);
+        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("saveBtn")).Enabled);
         driver.FindElement(By.Id("saveBtn")).Click();
 
 
