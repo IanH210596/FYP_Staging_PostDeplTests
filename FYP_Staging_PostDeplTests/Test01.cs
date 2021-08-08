@@ -120,9 +120,11 @@ public class Test01
 
         driver.FindElement(By.Id("register")).Click();
 
+        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("errorBtn")).Displayed);
         waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.Id("errorBtn"))));
         driver.FindElement(By.Id("errorBtn")).Click();
 
+        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("saveBtn")).Displayed);
         waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.Id("saveBtn"))));
         driver.FindElement(By.Id("saveBtn")).Click();
 
@@ -173,12 +175,15 @@ public class Test01
 
         driver.FindElement(By.Id("saveBtn")).Click();
 
+        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("errorBtn")).Displayed);
         waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.Id("errorBtn")))); //webDriver => webDriver.FindElement(By.Id("errorBtn")).Enabled
         driver.FindElement(By.Id("errorBtn")).Click();
 
+        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("logoutBtn")).Displayed);
         waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.Id("logoutBtn"))));
         driver.FindElement(By.Id("logoutBtn")).Click();
 
+        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("login")).Displayed);
         waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.Id("login"))));
         driver.FindElement(By.Id("login")).Click();
 
@@ -199,6 +204,7 @@ public class Test01
         driver.FindElement(By.Id("passwordInput")).SendKeys(randomPassword02);
         driver.FindElement(By.Id("login")).Click();
 
+        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("errorBtn")).Displayed);
         waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.Id("errorBtn"))));
         Assert.That(driver.FindElement(By.CssSelector("app-error > div > p")).Text, Is.EqualTo("Invalid User Credentials!"));
         driver.FindElement(By.Id("errorBtn")).Click();
