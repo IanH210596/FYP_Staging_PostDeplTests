@@ -179,13 +179,13 @@ public class Test03
 
         driver.FindElement(By.Id("saveBtn")).Click();
 
-        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("errorBtn")).Displayed);
+        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("errorBtn")).Enabled);
         driver.FindElement(By.Id("errorBtn")).Click();
 
-        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("logoutBtn")).Displayed);
+        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("logoutBtn")).Enabled);
         driver.FindElement(By.Id("logoutBtn")).Click();
 
-        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("login")).Displayed);
+        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("login")).Enabled);
         driver.FindElement(By.Id("login")).Click();
 
         waitForElement.Until(webDriver => webDriver.FindElement(By.Id("emailError")).Displayed);
@@ -205,7 +205,7 @@ public class Test03
         driver.FindElement(By.Id("passwordInput")).SendKeys(randomPassword02);
         driver.FindElement(By.Id("login")).Click();
 
-        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("errorBtn")).Displayed);
+        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("errorBtn")).Enabled);
         Assert.That(driver.FindElement(By.CssSelector("app-error > div > p")).Text, Is.EqualTo("Invalid User Credentials!"));
         driver.FindElement(By.Id("errorBtn")).Click();
 
