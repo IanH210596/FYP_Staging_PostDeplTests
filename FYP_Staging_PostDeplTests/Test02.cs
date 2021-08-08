@@ -18,6 +18,7 @@ using NUnit.Framework.Internal;
 [TestFixture]
 public class Test02
 {
+    private FirefoxOptions options;
     private IWebDriver driver;
     public WebDriverWait waitForElement;
     public Randomizer random;
@@ -41,7 +42,7 @@ public class Test02
     [SetUp]
     public void SetUp()
     {
-        driver = new FirefoxDriver("C:\\SeleniumWebDrivers\\GeckoDriver"); //LOCAL: N/A OR ON AZURE: "C:\\SeleniumWebDrivers\\GeckoDriver"
+        driver = new FirefoxDriver("C:\\SeleniumWebDrivers\\GeckoDriver", options, TimeSpan.FromMinutes(3)); //LOCAL: N/A OR ON AZURE: "C:\\SeleniumWebDrivers\\GeckoDriver"
         js = (IJavaScriptExecutor)driver;
         vars = new Dictionary<string, object>();
 

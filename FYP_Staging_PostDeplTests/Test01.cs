@@ -18,6 +18,7 @@ using NUnit.Framework.Internal;
 [TestFixture]
 public class Test01
 {
+    private ChromeOptions options;
     private IWebDriver driver;
     public WebDriverWait waitForElement;
     public Randomizer random;
@@ -41,7 +42,8 @@ public class Test01
     [SetUp]
     public void SetUp()
     {
-        driver = new ChromeDriver("C:\\SeleniumWebDrivers\\ChromeDriver"); //LOCAL: "C:\\Users\\ianh\\Selenium\\chromedriver_win32" OR ON AZURE: "C:\\SeleniumWebDrivers\\ChromeDriver"
+        options = new ChromeOptions();
+        driver = new ChromeDriver("C:\\SeleniumWebDrivers\\ChromeDriver", options, TimeSpan.FromMinutes(3)); //LOCAL: "C:\\Users\\ianh\\Selenium\\chromedriver_win32" OR ON AZURE: "C:\\SeleniumWebDrivers\\ChromeDriver"
         js = (IJavaScriptExecutor)driver;
         vars = new Dictionary<string, object>();
 

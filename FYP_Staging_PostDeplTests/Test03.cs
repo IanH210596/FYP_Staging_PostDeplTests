@@ -50,7 +50,7 @@ public class Test03
         EdgeDriverService service = EdgeDriverService.CreateDefaultService(msedgedriverDir, msedgedriverExe);
 
         //Creating instance of the EdgeDriver
-        driver = new EdgeDriver(service, options);
+        driver = new EdgeDriver(service, options, TimeSpan.FromMinutes(3));
 
         js = (IJavaScriptExecutor)driver;
         vars = new Dictionary<string, object>();
