@@ -41,7 +41,7 @@ public class Test01
     [SetUp]
     public void SetUp()
     {
-        driver = new ChromeDriver("C:\\SeleniumWebDrivers\\ChromeDriver"); //LOCAL: "C:\\Users\\ianh\\Selenium\\chromedriver_win32_localtestversion" OR ON AZURE: "C:\\SeleniumWebDrivers\\ChromeDriver"
+        driver = new ChromeDriver("C:\\SeleniumWebDrivers\\ChromeDriver"); //LOCAL: "C:\\Users\\ianh\\Selenium\\chromedriver_win32" OR ON AZURE: "C:\\SeleniumWebDrivers\\ChromeDriver"
         js = (IJavaScriptExecutor)driver;
         vars = new Dictionary<string, object>();
 
