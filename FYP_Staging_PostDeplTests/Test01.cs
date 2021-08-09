@@ -44,7 +44,7 @@ public class Test01
     public void SetUp()
     {
         options = new ChromeOptions();
-        driver = new ChromeDriver("C:\\SeleniumWebDrivers\\ChromeDriver", options, TimeSpan.FromMinutes(3)); //LOCAL: "C:\\Users\\ianh\\Selenium\\chromedriver_win32" OR ON AZURE: "C:\\SeleniumWebDrivers\\ChromeDriver"
+        driver = new ChromeDriver("C:\\Users\\ianh\\Selenium\\chromedriver_win32", options, TimeSpan.FromMinutes(3)); //LOCAL: "C:\\Users\\ianh\\Selenium\\chromedriver_win32" OR ON AZURE: "C:\\SeleniumWebDrivers\\ChromeDriver"
         js = (IJavaScriptExecutor)driver;
         vars = new Dictionary<string, object>();
 
@@ -121,14 +121,14 @@ public class Test01
 
         driver.FindElement(By.Id("register")).Click();
 
-        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("errorBtn")).Displayed);
-        waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.Id("errorBtn"))));
-        elementToClick = driver.FindElement(By.Id("errorBtn"));
+        waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#errorBtn")).Displayed);
+        elementToClick = driver.FindElement(By.CssSelector("#errorBtn"));
+        waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(elementToClick));
         elementToClick.Click();
 
-        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("saveBtn")).Displayed);
-        waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.Id("saveBtn"))));
-        elementToClick = driver.FindElement(By.Id("saveBtn"));
+        waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#saveBtn")).Displayed);
+        elementToClick = driver.FindElement(By.CssSelector("#saveBtn"));
+        waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(elementToClick));
         elementToClick.Click();
 
 
@@ -178,19 +178,19 @@ public class Test01
 
         driver.FindElement(By.Id("saveBtn")).Click();
 
-        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("errorBtn")).Displayed);
-        waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.Id("errorBtn")))); //webDriver => webDriver.FindElement(By.Id("errorBtn")).Enabled
-        elementToClick = driver.FindElement(By.Id("errorBtn"));
+        waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#errorBtn")).Displayed);
+        elementToClick = driver.FindElement(By.CssSelector("#errorBtn"));
+        waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(elementToClick));
         elementToClick.Click();
 
-        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("logoutBtn")).Displayed);
-        waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.Id("logoutBtn"))));
-        elementToClick = driver.FindElement(By.Id("logoutBtn"));
+        waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#logoutBtn")).Displayed);
+        elementToClick = driver.FindElement(By.CssSelector("#logoutBtn"));
+        waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(elementToClick));
         elementToClick.Click();
 
-        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("login")).Displayed);
-        waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.Id("login"))));
-        elementToClick = driver.FindElement(By.Id("login"));
+        waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#login")).Displayed);
+        elementToClick = driver.FindElement(By.CssSelector("#login"));
+        waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(elementToClick));
         elementToClick.Click();
 
         waitForElement.Until(webDriver => webDriver.FindElement(By.Id("emailError")).Displayed);
@@ -210,10 +210,10 @@ public class Test01
         driver.FindElement(By.Id("passwordInput")).SendKeys(randomPassword02);
         driver.FindElement(By.Id("login")).Click();
 
-        waitForElement.Until(webDriver => webDriver.FindElement(By.Id("errorBtn")).Displayed);
-        waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(driver.FindElement(By.Id("errorBtn"))));
+        waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#errorBtn")).Displayed);
+        elementToClick = driver.FindElement(By.CssSelector("#errorBtn"));
         Assert.That(driver.FindElement(By.CssSelector("app-error > div > p")).Text, Is.EqualTo("Invalid User Credentials!"));
-        elementToClick = driver.FindElement(By.Id("errorBtn"));
+        waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(elementToClick));
         elementToClick.Click();
 
         driver.FindElement(By.Id("emailInput")).Clear();
