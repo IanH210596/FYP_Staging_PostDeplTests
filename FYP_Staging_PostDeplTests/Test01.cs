@@ -44,7 +44,7 @@ public class Test01
     public void SetUp()
     {
         options = new ChromeOptions();
-        driver = new ChromeDriver("C:\\Users\\ianh\\Selenium\\chromedriver_win32", options, TimeSpan.FromMinutes(3)); //LOCAL: "C:\\Users\\ianh\\Selenium\\chromedriver_win32" OR ON AZURE: "C:\\SeleniumWebDrivers\\ChromeDriver"
+        driver = new ChromeDriver("C:\\SeleniumWebDrivers\\ChromeDriver", options, TimeSpan.FromMinutes(3)); //LOCAL: "C:\\Users\\ianh\\Selenium\\chromedriver_win32" OR ON AZURE: "C:\\SeleniumWebDrivers\\ChromeDriver"
         js = (IJavaScriptExecutor)driver;
         vars = new Dictionary<string, object>();
 
