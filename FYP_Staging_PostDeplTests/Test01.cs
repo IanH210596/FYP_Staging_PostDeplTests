@@ -44,11 +44,12 @@ public class Test01
     public void SetUp()
     {
         options = new ChromeOptions();
+        //filepath of the directory housing chromedriver on an Azure Pipeline vs2017-win2016 agent passed to new instance of ChromeDriver to be created: https://github.com/actions/virtual-environments/blob/main/images/win/Windows2016-Readme.md
         driver = new ChromeDriver("C:\\SeleniumWebDrivers\\ChromeDriver", options, TimeSpan.FromMinutes(3)); //LOCAL: "C:\\Users\\ianh\\Selenium\\chromedriver_win32" OR ON AZURE: "C:\\SeleniumWebDrivers\\ChromeDriver"
         js = (IJavaScriptExecutor)driver;
         vars = new Dictionary<string, object>();
 
-        //waitForElement instance to be used to ensure driver waits for an element to become selectable while page loads for at least a timespance of 10 seconds before an error is thrown
+        //waitForElement instance to be used to ensure driver waits for an element to become selectable while page loads for at least a timespance of 30 seconds before an error is thrown
         waitForElement = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
 
         // Creating instance of the Randomizer() class and using it to generate random strings for use in the Post Deployment Test
@@ -63,11 +64,13 @@ public class Test01
 
         randomPpsn = random.GetString(10);
 
+        // logic to generate a random date of birth assuming a date of birth between 100 years and 18 years ago
         DateTime maxDateTime = DateTime.Today.AddYears(-18);
         DateTime exampleMinDateTime = DateTime.Today.AddYears(-100);
         int range = (maxDateTime - exampleMinDateTime).Days;
         randomDateOfBirth = exampleMinDateTime.AddDays(gen.Next(range));
         randomDateOfBirthString = randomDateOfBirth.ToString("yyyy-MM-dd");
+
         randomNationality = random.GetString(10);
         randomAddressOne = random.GetString(10);
         randomAddressTwo = random.GetString(10);
@@ -84,14 +87,17 @@ public class Test01
     [Test]
     public void PostDeploymentTest01()
     {
+        // Post Deployment Test Navigates to URL for the Staging Environment Frontend Load Balancer and starts at login page for web application
         driver.Navigate().GoToUrl("http://20.67.229.253/"); //LOCAL: http://localhost:4200/ OR AZURE: http://20.67.229.253/
         driver.Manage().Window.Size = new System.Drawing.Size(1936, 1176);
 
+        // Start: Test Steps to Register a New User
         driver.FindElement(By.CssSelector(".registerLink")).Click();
 
         driver.FindElement(By.Id("register")).Click();
 
         waitForElement.Until(webDriver => webDriver.FindElement(By.Id("firstNameError")).Displayed);
+        // Verify errors displayed when no registration form inputs are provided before clicking Register button
         Assert.That(driver.FindElement(By.Id("firstNameError")).Text, Is.EqualTo("Please enter a First Name."));
         Assert.That(driver.FindElement(By.Id("lastNameError")).Text, Is.EqualTo("Please enter a Last Name."));
         Assert.That(driver.FindElement(By.Id("mobileError")).Text, Is.EqualTo("Please enter a Mobile Number."));
@@ -111,6 +117,7 @@ public class Test01
         driver.FindElement(By.Id("register")).Click();
 
         waitForElement.Until(webDriver => webDriver.FindElement(By.Id("emailError")).Displayed);
+        // Verify errors if an invalid email is used and passwords do not match
         Assert.That(driver.FindElement(By.Id("emailError")).Text, Is.EqualTo("Please enter a valid Email."));
         Assert.That(driver.FindElement(By.Id("confirmPasswordMismatchError")).Text, Is.EqualTo("Password does not match."));
 
@@ -120,7 +127,10 @@ public class Test01
         driver.FindElement(By.Id("confirmPasswordInput")).SendKeys(randomPassword01);
 
         driver.FindElement(By.Id("register")).Click();
+        // End: Test Steps to Register a New User
 
+
+        // Start: Test Steps to Add Vaccination Details for a User
         waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#errorBtn")).Displayed);
         elementToClick = driver.FindElement(By.CssSelector("#errorBtn"));
         waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(elementToClick));
@@ -133,6 +143,7 @@ public class Test01
 
 
         waitForElement.Until(webDriver => webDriver.FindElement(By.Id("ppsnError")).Displayed);
+        // Verify errors displayed when no vaccination details form inputs are provided before clicking save button
         Assert.That(driver.FindElement(By.Id("ppsnError")).Text, Is.EqualTo("Please enter a PPSN."));
         Assert.That(driver.FindElement(By.Id("dateOfBirthError")).Text, Is.EqualTo("Please enter a Date of Birth."));
         Assert.That(driver.FindElement(By.Id("genderError")).Text, Is.EqualTo("Please select a Gender."));
@@ -146,9 +157,9 @@ public class Test01
         driver.FindElement(By.Id("ppsnInput")).SendKeys(randomPpsn);
         driver.FindElement(By.Id("dateOfBirthInput")).SendKeys(randomDateOfBirthString);
 
-
         driver.FindElement(By.Id("genderInput")).Click();
         waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#mat-option-0 > .mat-option-text")).Displayed);
+        // verify the options displayed for the gender select dropdown
         Assert.That(driver.FindElement(By.CssSelector("#mat-option-0 > .mat-option-text")).Text, Is.EqualTo("Male"));
         Assert.That(driver.FindElement(By.CssSelector("#mat-option-1 > .mat-option-text")).Text, Is.EqualTo("Female"));
         Assert.That(driver.FindElement(By.CssSelector("#mat-option-2 > .mat-option-text")).Text, Is.EqualTo("Other"));
@@ -163,6 +174,7 @@ public class Test01
 
         driver.FindElement(By.Id("vaccinePreferenceInput")).Click();
         waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#mat-option-4 > .mat-option-text")).Displayed);
+        // verify the options displayed for the vaccine preference select dropdown
         Assert.That(driver.FindElement(By.CssSelector("#mat-option-4 > .mat-option-text")).Text, Is.EqualTo("Pfizer"));
         Assert.That(driver.FindElement(By.CssSelector("#mat-option-5 > .mat-option-text")).Text, Is.EqualTo("Astrazenaca"));
         Assert.That(driver.FindElement(By.CssSelector("#mat-option-6 > .mat-option-text")).Text, Is.EqualTo("Johnson and Johnson"));
@@ -173,11 +185,15 @@ public class Test01
 
         waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector(".mat-simple-snackbar > span")).Displayed);
         var elements = driver.FindElements(By.CssSelector(".mat-simple-snackbar > span"));
+        // verify success message snackbar displayed if vaccination details are added successfully
         Assert.True(elements.Count > 0);
         driver.FindElement(By.CssSelector(".mat-simple-snackbar > div > .mat-button")).Click();
+        // End: Test Steps to Add Vaccination Details for a User
 
+        // Start: Test Steps to Edit/Update Vaccination Details for a User - Part 1
         driver.FindElement(By.Id("saveBtn")).Click();
 
+        // error dislayed if attempting to save vaccination details again without any change in the details
         waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#errorBtn")).Displayed);
         elementToClick = driver.FindElement(By.CssSelector("#errorBtn"));
         waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(elementToClick));
@@ -187,13 +203,16 @@ public class Test01
         elementToClick = driver.FindElement(By.CssSelector("#logoutBtn"));
         waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(elementToClick));
         elementToClick.Click();
+        // End: Test Steps to Edit/Update Vaccination Details for a User - Part 1
 
+        // Start: Test Steps to Login a User
         waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#login")).Displayed);
         elementToClick = driver.FindElement(By.CssSelector("#login"));
         waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(elementToClick));
         elementToClick.Click();
 
         waitForElement.Until(webDriver => webDriver.FindElement(By.Id("emailError")).Displayed);
+        // Verify errors displayed if attempting to login without providing any login form inputs
         Assert.That(driver.FindElement(By.Id("emailError")).Text, Is.EqualTo("Please enter a valid Email."));
         Assert.That(driver.FindElement(By.Id("passwordError")).Text, Is.EqualTo("Please enter a Password."));
 
@@ -202,6 +221,7 @@ public class Test01
         driver.FindElement(By.Id("login")).Click();
 
         waitForElement.Until(webDriver => webDriver.FindElement(By.Id("emailError")).Displayed);
+        // Verify error displayed if attempting to login with an invalid email
         Assert.That(driver.FindElement(By.Id("emailError")).Text, Is.EqualTo("Please enter a valid Email."));
 
         driver.FindElement(By.Id("emailInput")).Clear();
@@ -212,6 +232,7 @@ public class Test01
 
         waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#errorBtn")).Displayed);
         elementToClick = driver.FindElement(By.CssSelector("#errorBtn"));
+        // Verify error displayed if attempting to login with the incorrect password for a user
         Assert.That(driver.FindElement(By.CssSelector("app-error > div > p")).Text, Is.EqualTo("Invalid User Credentials!"));
         waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(elementToClick));
         elementToClick.Click();
@@ -221,8 +242,11 @@ public class Test01
         driver.FindElement(By.Id("emailInput")).SendKeys(randomEmail + "@testdomain.com");
         driver.FindElement(By.Id("passwordInput")).SendKeys(randomPassword01);
         driver.FindElement(By.Id("login")).Click();
+        // End: Test Steps to Login a User
 
+        // Start: Test Steps to Edit/Update Vaccination Details for a User - Part 2
         waitForElement.Until(webDriver => webDriver.FindElement(By.Id("ppsnInput")).Displayed);
+        // Verify the previously added vaccination details for the user are retrieved and displayed in the vaccination details form upon login
         Assert.That(driver.FindElement(By.Id("ppsnInput")).GetAttribute("value"), Is.EqualTo(randomPpsn));
 
         Assert.That(driver.FindElement(By.Id("dateOfBirthInput")).GetAttribute("value"), Is.EqualTo(randomDateOfBirth.ToString("M/d/yyyy")));
@@ -248,7 +272,9 @@ public class Test01
 
         waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector(".mat-simple-snackbar > span")).Displayed);
         var elementsNew = driver.FindElements(By.CssSelector(".mat-simple-snackbar > span"));
+        // verify success message snackbar displayed if vaccination details are updated successfully
         Assert.True(elementsNew.Count > 0);
         driver.FindElement(By.CssSelector(".mat-simple-snackbar > div > .mat-button")).Click();
+        // End: Test Steps to Edit/Update Vaccination Details for a User - Part 2
     }
 }
