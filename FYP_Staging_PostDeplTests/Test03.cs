@@ -203,12 +203,14 @@ public class Test03
         elementToClick = driver.FindElement(By.CssSelector("#errorBtn"));
         waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(elementToClick));
         elementToClick.Click();
+        // End: Test Steps to Edit/Update Vaccination Details for a User - Part 1
 
+        // Start: Test Steps to Logout a User
         waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#logoutBtn")).Displayed);
         elementToClick = driver.FindElement(By.CssSelector("#logoutBtn"));
         waitForElement.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(elementToClick));
         elementToClick.Click();
-        // End: Test Steps to Edit/Update Vaccination Details for a User - Part 1
+        // End: Test Steps to Logout a User
 
         // Start: Test Steps to Login a User
         waitForElement.Until(webDriver => webDriver.FindElement(By.CssSelector("#login")).Displayed);
